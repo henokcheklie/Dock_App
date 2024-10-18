@@ -2,28 +2,40 @@ name: Deploy My Flutter Dock App
 
 on:
   push:
-    branches:
-      - main # Change to the branch you want to deploy from
+    branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: "3.24.3"
           channel: "stable"
+
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.FLUTTER_HOME }}/.pub-cache
+          key: ${{ runner.OS }}-flutter-install-cache-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-flutter-install-cache-
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Build web
-        run: flutter build web
+        run: flutter build web --base-href=/dock_app/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/web
+          publish_dir: .build/web
