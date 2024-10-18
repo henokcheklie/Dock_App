@@ -37,9 +37,10 @@ jobs:
       - name: Verify index.html presence
         run: |
           if [ -f "build/web/index.html" ]; then
-          echo "index.html found"
+            echo "index.html found"
           else
-          echo "index.html NOT found, deployment might fail"
+            echo "CRITICAL: index.html NOT found, failing deployment"
+            exit 1
           fi
 
       - name: List build directory
@@ -49,8 +50,8 @@ jobs:
         run: touch build/web/.nojekyll
 
       - name: Deploy to GitHub Pages
-       uses: peaceiris/actions-gh-pages@v3
-       with:
-         github_token: ${{ secrets.GITHUB_TOKEN }}
-         publish_dir: build/web
-         publish_branch: gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/web
+          publish_branch: gh-pages
