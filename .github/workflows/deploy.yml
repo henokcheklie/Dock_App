@@ -35,7 +35,12 @@ jobs:
         run: flutter build web --base-href=/dock_app/
 
       - name: Verify index.html presence
-        run: [[ -f build/web/index.html ]] && echo "index.html found" || echo "index.html NOT found, deployment might fail"
+        run: |
+          if [ -f "build/web/index.html" ]; then
+          echo "index.html found"
+          else
+          echo "index.html NOT found, deployment might fail"
+          fi
 
       - name: List build directory
         run: ls -R build/web
