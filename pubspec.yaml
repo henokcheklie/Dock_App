@@ -1,0 +1,41 @@
+name: dock_app
+description: "A Dock app Flutter project for the job test."
+
+publish_to: "none"
+
+#
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+#
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  flutter_launcher_icons: ^0.14.1
+  google_fonts: ^6.2.1
+
+#
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+
+#
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+#
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
